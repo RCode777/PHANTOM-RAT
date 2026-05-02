@@ -1,4 +1,4 @@
-# 🎭 PHANTOM RAT v6.6 : The Invisible Observer
+# 🎭 PHANTOM RAT v6.6
 > **Advanced Discord-Based Command & Control (C2) Framework for Red Teaming Operations & Security Research.**
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
@@ -138,6 +138,44 @@ Jika Anda ingin membuat file `.exe` baru dengan konfigurasi berbeda, Anda **WAJI
 | `!keylog` | Control keylogger | Kontrol modul keylogger |
 | `!shell` | Execute CMD command | Eksekusi perintah CMD |
 | `!clean` | Remove traces & uninstall| Hapus jejak dan uninstall |
+
+---
+
+---
+
+## 🛠️ Setup & Customization / Pengaturan & Kustomisasi
+
+### 🇺🇸 English Version
+
+#### 🤖 1. How to Create a Discord Bot
+1.  Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+2.  Click **"New Application"** and give it a name.
+3.  Navigate to the **"Bot"** tab and click **"Reset Token"** to get your **Bot Token**.
+4.  **Crucial**: Scroll down to "Privileged Gateway Intents" and enable **"Message Content Intent"**.
+5.  Invite the bot to your server using the OAuth2 URL Generator with `Administrator` permissions.
+6.  Right-click on your target channel in Discord and select **"Copy Channel ID"** (Enable Developer Mode in Discord settings first).
+
+#### 🎨 2. How to Custom Theme & Icon
+*   **Custom Background**: In the Builder, select a high-resolution image (JPG/PNG). The system will encode it into Base64 and embed it directly into the script.
+*   **Custom Icon**: Prepare a `.ico` file. In the Builder, browse for the file to set it as the executable's icon.
+*   **Decoy Binder**: Select any file (e.g., `invoice.pdf`) to be bundled. This file will open automatically when the payload is executed to distract the target.
+
+---
+
+### 🇮🇩 Versi Bahasa Indonesia
+
+#### 🤖 1. Cara Membuat Bot Discord
+1.  Buka [Discord Developer Portal](https://discord.com/developers/applications).
+2.  Klik **"New Application"** dan berikan nama aplikasi.
+3.  Masuk ke menu **"Bot"** dan klik **"Reset Token"** untuk mendapatkan **Bot Token**.
+4.  **Penting**: Gulir ke bawah ke bagian "Privileged Gateway Intents" dan aktifkan **"Message Content Intent"**.
+5.  Undang bot ke server Anda menggunakan OAuth2 URL Generator dengan izin `Administrator`.
+6.  Klik kanan pada channel tujuan di Discord dan pilih **"Copy Channel ID"** (Pastikan Developer Mode sudah aktif di pengaturan Discord).
+
+#### 🎨 2. Cara Custom Tema & Ikon
+*   **Background Kustom**: Di dalam Builder, pilih gambar resolusi tinggi (JPG/PNG). Sistem akan mengubahnya menjadi Base64 dan menanamkannya langsung ke dalam script.
+*   **Ikon Kustom**: Siapkan file berformat `.ico`. Di dalam Builder, cari file tersebut untuk menjadikannya ikon file executable.
+*   **Decoy Binder**: Pilih file apa saja (contoh: `tugas.pdf`) untuk dibundel. File ini akan terbuka otomatis saat payload dijalankan untuk mengalihkan perhatian target.
 
 ---
 
